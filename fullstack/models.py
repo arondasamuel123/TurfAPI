@@ -21,4 +21,10 @@ class Turf(models.Model):
 class Booking(models.Model):
     players = models.IntegerField()
     time_booked = models.DateTimeField()
-    status = models.BooleanField()   
+    status = models.BooleanField()
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    turf = models.ForeignKey(Turf, on_delete=models.CASCADE)
+    
+
+
+       
