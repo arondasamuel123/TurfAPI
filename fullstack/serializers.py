@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User
+from .models import User,Turf
 from django.contrib.auth.hashers import make_password
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
@@ -20,6 +20,16 @@ class CustomTokenSerializer(TokenObtainPairSerializer):
         data.update({'role_type':self.user.role_type})
 
         return data
+class TurfSerializer(serializers.ModelSerializer):
+    user = serializers.PrimaryKeyRelatedField(
+        queryset=User.objects.all(),
+        required=False,
+        allow_null=True,
+        default=None
+    )
+    class Meta:
+        model = Turf
+        fields = ('turf_name', 'turf_location', 'price', 'user')
 
         
     
