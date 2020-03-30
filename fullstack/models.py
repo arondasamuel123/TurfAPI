@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.conf import settings
+from cloudinary.models import CloudinaryField
 
 class User(AbstractUser):
     
@@ -37,6 +38,15 @@ class Schedule(models.Model):
     time_slot_two = models.TimeField()
     time_slot_three = models.TimeField()
     day = models.CharField(max_length=3, choices=DAYS)
+    turf = models.ForeignKey(Turf, on_delete=models.CASCADE)
+
+class Tournament(models.Model):
+    tournament_name = models.CharField(max_length=30)
+    tournament_prize = models.IntegerField()
+    tournament_poster = CloudinaryField('tournament_poster')
+    tournament_date = models.DateField()
+    turf = models.ForeignKey(Turf, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     
 
        
