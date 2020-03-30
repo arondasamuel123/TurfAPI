@@ -25,6 +25,17 @@ class Booking(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     turf = models.ForeignKey(Turf, on_delete=models.CASCADE)
     
-
+class Schedule(models.Model):
+    DAYS = (
+        'MON', 'MONDAY',
+        'TUE', 'TUESDAY',
+        'WED', 'WEDNESDAY',
+        'THUR', 'THURSDAY',
+        'FRI', 'FRIDAY'
+    )
+    time_slot_one = models.TimeField()
+    time_slot_two = models.TimeField()
+    time_slot_three = models.TimeField()
+    day = models.CharField(max_length=3, choices=DAYS)
 
        
