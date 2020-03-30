@@ -3,13 +3,13 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from .models import User
-from .serializers import UserSerializer
+from .serializers import UserSerializer,CustomTokenSerializer
 from rest_framework.permissions import IsAuthenticated
+from rest_framework_simplejwt.views import TokenObtainPairView
 
 
 
 class UserList(APIView):
-    permission_classes = (IsAuthenticated,)
     def get(self, request, format=None):
         all_users = User.objects.all()
         serializers = UserSerializer(all_users,many=True)
@@ -21,3 +21,6 @@ class UserList(APIView):
             serializers.save()
             return Response(serializers.data,status=status.HTTP_201_CREATED)
         return Response(serializers.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+class CustomTokenObtainPairView(TokenObtainPairView):
+    serializer_class = CustomTokenSerializer
