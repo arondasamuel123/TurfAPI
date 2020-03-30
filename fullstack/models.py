@@ -16,7 +16,7 @@ class User(AbstractUser):
 class Turf(models.Model):
     turf_name = models.CharField(max_length=25)
     turf_location = models.CharField(max_length=25)
-    price = models.DecimalField()
+    price = models.DecimalField(max_digits=2, decimal_places=2)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)   
 
 class Booking(models.Model):
@@ -28,16 +28,16 @@ class Booking(models.Model):
     
 class Schedule(models.Model):
     DAYS = (
-        'MON', 'MONDAY',
-        'TUE', 'TUESDAY',
-        'WED', 'WEDNESDAY',
-        'THUR', 'THURSDAY',
-        'FRI', 'FRIDAY'
+        ('MON', 'MONDAY'),
+        ('TUE', 'TUESDAY'),
+        ('WED', 'WEDNESDAY'),
+        ('THUR', 'THURSDAY'),
+        ('FRI', 'FRIDAY')
     )
     time_slot_one = models.TimeField()
     time_slot_two = models.TimeField()
     time_slot_three = models.TimeField()
-    day = models.CharField(max_length=3, choices=DAYS)
+    day = models.CharField(max_length=4, choices=DAYS)
     turf = models.ForeignKey(Turf, on_delete=models.CASCADE)
 
 class Tournament(models.Model):
