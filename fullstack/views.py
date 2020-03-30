@@ -6,7 +6,9 @@ from .models import User
 from .serializers import UserSerializer,CustomTokenSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.views import TokenObtainPairView
-
+from rest_framework.views import APIView
+from .serializers import TurfSerializer
+from .permissions import TurfOwner
 
 
 class UserList(APIView):
@@ -24,3 +26,13 @@ class UserList(APIView):
     
 class CustomTokenObtainPairView(TokenObtainPairView):
     serializer_class = CustomTokenSerializer
+
+class TurfView(APIView):
+    permission_classes = (TurfOwner,)
+    def post(self, request, format=None):
+        serializers = TurfSerializer(data=request.data)
+        if serializers.is_valid():
+            serializers.save(user=request.user)
+            return Response(serializers.data,status=status.HTTP_201_CREATED)
+        return Response(serializers.errors, status=status.HTTP_400_BAD_REQUEST)
+        

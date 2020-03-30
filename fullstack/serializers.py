@@ -29,7 +29,7 @@ class TurfSerializer(serializers.ModelSerializer):
     )
     class Meta:
         model = Turf
-        fields = ('turf_name', 'turf_location', 'price', 'user')
+        fields = ('id','turf_name', 'turf_location', 'price', 'user')
 
         
     

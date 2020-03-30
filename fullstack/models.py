@@ -16,7 +16,7 @@ class User(AbstractUser):
 class Turf(models.Model):
     turf_name = models.CharField(max_length=25)
     turf_location = models.CharField(max_length=25)
-    price = models.DecimalField(max_digits=2, decimal_places=2)
+    price = models.DecimalField(max_digits=6, decimal_places=2)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)   
 
 class Booking(models.Model):
