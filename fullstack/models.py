@@ -18,4 +18,7 @@ class Turf(models.Model):
     price = models.DecimalField()
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)   
 
-    
+class Booking(models.Model):
+    players = models.IntegerField()
+    time_booked = models.DateTimeField()
+    status = models.BooleanField()   
