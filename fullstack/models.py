@@ -37,5 +37,6 @@ class Schedule(models.Model):
     time_slot_two = models.TimeField()
     time_slot_three = models.TimeField()
     day = models.CharField(max_length=3, choices=DAYS)
+    
 
        
