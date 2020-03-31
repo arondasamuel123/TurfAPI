@@ -138,4 +138,14 @@ class ScheduleView(APIView):
             serializers.save(turf=turf)
             return Response(serializers.data,status=status.HTTP_201_CREATED)
         return Response(serializers.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    def put(self, request,pk, format=None):
+        turf = Turf.objects.get(pk=pk)
+        schedule = Schedule.objects.filter(turf_id=turf.id).first()
+        serializers = ScheduleSerializer(schedule,data=request.data)
+        if serializers.is_valid():
+            serializers.save(turf=turf)
+            return Response(serializers.data)
+        return Response(serializers.errors,status=status.HTTP_400_BAD_REQUEST)
+        
             

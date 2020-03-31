@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User,Turf, Booking, Tournament, Schedule
+from .models import User,Turf, Booking, Tournament, Schedule, Join
 from django.contrib.auth.hashers import make_password
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
@@ -79,6 +79,11 @@ class ScheduleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Schedule
         fields =('id', 'time_slot_one', 'time_slot_two', 'time_slot_three', 'day', 'turf')
+        
+class JoinSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Join
+        fields =('id', 'team_name', 'players', 'payment_method')
     
     
 
