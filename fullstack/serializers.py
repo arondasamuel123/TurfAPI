@@ -69,13 +69,13 @@ class TournamentSerializer(serializers.ModelSerializer):
 
 
 class ScheduleSerializer(serializers.ModelSerializer):
-    turf = serializers.PrimaryKeyRelatedField(
-        queryset=Turf.objects.all(),
-        required=False,
-        allow_null=True,
-        default=None
-    )
-    turf_s = TurfSerializer
+    # turf = serializers.PrimaryKeyRelatedField(
+    #     queryset=Turf.objects.all(),
+    #     required=False,
+    #     allow_null=True,
+    #     default=None
+    # )
+    turf = TurfSerializer(read_only=True)
     class Meta:
         model = Schedule
         fields =('id', 'time_slot_one', 'time_slot_two', 'time_slot_three', 'day', 'turf')
