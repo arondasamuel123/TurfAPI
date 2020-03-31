@@ -105,6 +105,7 @@ class TournamentView(APIView):
         tournaments = Tournament.objects.all()
         serializers = TournamentSerializer(tournaments, many=True)
         return Response(serializers.data, status=status.HTTP_200_OK)
+    permission_classes = (TurfOwner,)
     def get(self, request, pk, format=None):
         tournament = Tournament.objects.get(pk=pk)
         serializers = TournamentSerializer(tournament)
@@ -118,5 +119,9 @@ class TournamentView(APIView):
             serializers.save(user=request.user, turf=turf)
             return Response(serializers.data,status=status.HTTP_201_CREATED)
         return Response(serializers.errors, status=status.HTTP_400_BAD_REQUEST)
+    def delete(self, request, pk, format=None):
+        tournament = Tournament.objects.get(pk=pk)
+        tournament.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
     
             
