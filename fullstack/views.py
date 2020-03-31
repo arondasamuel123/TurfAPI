@@ -59,6 +59,12 @@ class SingleTurf(APIView):
         return Response(serializers.errors, status=status.HTTP_400_BAD_REQUEST)
     
 class BookingView(APIView):
+    permission_classes = (IsAuthenticated,)
+    def get(self, request, pk, format=None):
+        turf = Turf.objects.get(pk=pk)
+        booking = Booking.objects.filter(turf_id=turf.id).first()
+        serializer = BookingSerializer(booking)
+        return Response(serializer.data, status=status.HTTP_200_OK)
     
     def post(self,request, pk, format=None):
         turf = Turf.objects.get(pk=pk)
@@ -79,6 +85,12 @@ class BookingView(APIView):
             confirm_booking_email(user.username, user.email)
             return Response(serializers.data)
         return Response(serializers.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+# class UserBookingView(APIView):
+#     def get(self, request,pk, format=None):
+#         user = User.objects.get(pk=pk)
+#         booking = Booking.objects.filter(user_id=user.id).first()
+#         serializer
             
         
         
