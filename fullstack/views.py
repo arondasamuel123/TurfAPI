@@ -93,6 +93,12 @@ class UserBookingView(APIView):
         booking = Booking.objects.filter(user_id=user.id).first()
         serializers = BookingSerializer(booking)
         return Response(serializers.data, status=status.HTTP_200_OK)
+    def delete(self, request, pk, format=None):
+        user = User.objects.get(pk=pk)
+        booking = Booking.objects.filter(user_id=user.id).first()
+        booking.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+        
     
             
         
