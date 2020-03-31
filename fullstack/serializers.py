@@ -81,9 +81,15 @@ class ScheduleSerializer(serializers.ModelSerializer):
         fields =('id', 'time_slot_one', 'time_slot_two', 'time_slot_three', 'day', 'turf')
         
 class JoinSerializer(serializers.ModelSerializer):
+    tournament = serializers.PrimaryKeyRelatedField(
+        queryset=Tournament.objects.all(),
+        required=False,
+        allow_null=True,
+        default=None
+    )
     class Meta:
         model = Join
-        fields =('id', 'team_name', 'players', 'payment_method')
+        fields =('id', 'team_name', 'players', 'payment_method', 'tournament')
     
     
 

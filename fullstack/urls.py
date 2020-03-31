@@ -15,7 +15,8 @@ urlpatterns = [
     path('api/v1/tournaments', views.TournamentView.as_view()),
     path('api/v1/tourna/<int:pk>', views.TournamentView.as_view()),
     path('api/v1/tournament/<int:pk>', views.TournamentView.as_view()),
-    path('api/v1/schedule/<int:pk>', views.ScheduleView.as_view())
+    path('api/v1/schedule/<int:pk>', views.ScheduleView.as_view()),
+    path('api/v1/join/<int:pk>',views.JoinView.as_view())
     
     
 ]
