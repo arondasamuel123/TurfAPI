@@ -78,7 +78,7 @@ class ScheduleSerializer(serializers.ModelSerializer):
     turf_s = TurfSerializer
     class Meta:
         model = Schedule
-        fields =('id', 'time_slot_one', 'time_slot_two', 'time_slot_three', 'day', 'turf','turf_s')
+        fields =('id', 'time_slot_one', 'time_slot_two', 'time_slot_three', 'day', 'turf')
     
     
 

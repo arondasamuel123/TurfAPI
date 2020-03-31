@@ -2,7 +2,7 @@ from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .models import User, Turf, Booking, Tournament
+from .models import User, Turf, Booking, Tournament, Schedule
 from .serializers import UserSerializer,CustomTokenSerializer,TurfSerializer,BookingSerializer,TournamentSerializer, ScheduleSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.views import TokenObtainPairView
@@ -126,6 +126,11 @@ class TournamentView(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
     
 class ScheduleView(APIView):
+    def get(self, request, pk, format=None):
+        turf = Turf.objects.get(pk=pk)
+        schedule = Schedule.objects.filter(turf_id=turf.id).first()
+        serializers = ScheduleSerializer(schedule)
+        return Response(serializers.data, status=status.HTTP_200_OK)
     def post(self,request,pk, format=None):
         turf = Turf.objects.get(pk=pk)
         serializers = ScheduleSerializer(data=request.data)
