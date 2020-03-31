@@ -50,4 +50,11 @@ class SingleTurf(APIView):
         turf = Turf.objects.get(pk=pk)
         serializers = TurfSerializer(turf)
         return Response(serializers.data, status=status.HTTP_200_OK)
+    def put(self, request, pk, format=None):
+        turf = Turf.objects.get(pk=pk)
+        serializers = TurfSerializer(turf, data=request.data)
+        if serializers.is_valid():
+            serializers.save(user=request.user)
+            return Response(serializers.data)
+        return Response(serializers.errors, status=status.HTTP_400_BAD_REQUEST)
         
