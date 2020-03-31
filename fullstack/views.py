@@ -104,7 +104,12 @@ class TournamentView(APIView):
     def get(self, request, format=None):
         tournaments = Tournament.objects.all()
         serializers = TournamentSerializer(tournaments, many=True)
-        return Response(serializers.data)
+        return Response(serializers.data, status=status.HTTP_200_OK)
+    def get(self, request, pk, format=None):
+        tournament = Tournament.objects.get(pk=pk)
+        serializers = TournamentSerializer(tournament)
+        return Response(serializers.data,status=status.HTTP_200_OK)
+        
     def post(self,request,pk, format=None):
         turf = Turf.objects.get(pk=pk)
         
