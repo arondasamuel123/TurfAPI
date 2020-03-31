@@ -14,7 +14,8 @@ urlpatterns = [
     path('api/v1/view/<int:pk>', views.UserBookingView.as_view()),
     path('api/v1/tournaments', views.TournamentView.as_view()),
     path('api/v1/tourna/<int:pk>', views.TournamentView.as_view()),
-    path('api/v1/delete-tourna/<int:pk>', views.TournamentView.as_view()),
-    path('api/v1/tournament/<int:pk>', views.TournamentView.as_view())
+    path('api/v1/tournament/<int:pk>', views.TournamentView.as_view()),
+    path('api/v1/schedule/<int:pk>', views.ScheduleView.as_view())
+    
     
 ]

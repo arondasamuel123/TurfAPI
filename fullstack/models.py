@@ -35,9 +35,9 @@ class Schedule(models.Model):
         ('THUR', 'THURSDAY'),
         ('FRI', 'FRIDAY')
     )
-    time_slot_one = models.TimeField()
-    time_slot_two = models.TimeField()
-    time_slot_three = models.TimeField()
+    time_slot_one = models.CharField(max_length=30)
+    time_slot_two = models.CharField(max_length=30)
+    time_slot_three = models.CharField(max_length=30)
     day = models.CharField(max_length=4, choices=DAYS)
     turf = models.ForeignKey(Turf, on_delete=models.CASCADE)
 

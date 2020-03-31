@@ -3,7 +3,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from .models import User, Turf, Booking, Tournament
-from .serializers import UserSerializer,CustomTokenSerializer,TurfSerializer,BookingSerializer,TournamentSerializer
+from .serializers import UserSerializer,CustomTokenSerializer,TurfSerializer,BookingSerializer,TournamentSerializer, ScheduleSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.views import APIView
@@ -105,6 +105,7 @@ class TournamentView(APIView):
         tournaments = Tournament.objects.all()
         serializers = TournamentSerializer(tournaments, many=True)
         return Response(serializers.data, status=status.HTTP_200_OK)
+    
     permission_classes = (TurfOwner,)
     def get(self, request, pk, format=None):
         tournament = Tournament.objects.get(pk=pk)
@@ -124,4 +125,12 @@ class TournamentView(APIView):
         tournament.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
     
+class ScheduleView(APIView):
+    def post(self,request,pk, format=None):
+        turf = Turf.objects.get(pk=pk)
+        serializers = ScheduleSerializer(data=request.data)
+        if serializers.is_valid():
+            serializers.save(turf=turf)
+            return Response(serializers.data,status=status.HTTP_201_CREATED)
+        return Response(serializers.errors, status=status.HTTP_400_BAD_REQUEST)
             
