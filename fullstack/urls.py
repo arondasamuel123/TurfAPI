@@ -7,5 +7,8 @@ urlpatterns = [
     path('api/user', views.UserList.as_view()),
     path('api/token/', views.CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/',TokenRefreshView.as_view(), name='token_refresh'),
-    path('api/v1/turf', views.TurfView.as_view())
+    path('api/v1/turf', views.TurfView.as_view()),
+    path('api/v1/turfs',views.TurfList.as_view()),
+    path('api/v1/turf/<int:pk>', views.SingleTurf.as_view())
+    
 ]
