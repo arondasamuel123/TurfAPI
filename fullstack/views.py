@@ -2,7 +2,7 @@ from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .models import User, Turf, Booking
+from .models import User, Turf, Booking, Tournament
 from .serializers import UserSerializer,CustomTokenSerializer,TurfSerializer,BookingSerializer,TournamentSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.views import TokenObtainPairView
@@ -101,6 +101,10 @@ class UserBookingView(APIView):
 
 class TournamentView(APIView):
     permission_classes = (IsAuthenticated,)
+    def get(self, request, format=None):
+        tournaments = Tournament.objects.all()
+        serializers = TournamentSerializer(tournaments, many=True)
+        return Response(serializers.data)
     def post(self,request,pk, format=None):
         turf = Turf.objects.get(pk=pk)
         
