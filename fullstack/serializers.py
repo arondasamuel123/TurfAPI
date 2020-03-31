@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User,Turf, Booking
+from .models import User,Turf, Booking, Tournament
 from django.contrib.auth.hashers import make_password
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
@@ -48,6 +48,24 @@ class BookingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Booking
         fields = ('id', 'players', 'time', 'date', 'status', 'user','turf')
+
+class TournamentSerializer(serializers.ModelSerializer):
+    user = serializers.PrimaryKeyRelatedField(
+        queryset=User.objects.all(),
+        required=False,
+        allow_null=True,
+        default=None
+    )
+    
+    turf = serializers.PrimaryKeyRelatedField(
+        queryset=Turf.objects.all(),
+        required=False,
+        allow_null=True,
+        default=None
+    )
+    class Meta:
+        model = Tournament
+        fields = ('id', 'tournament_name','tournament_date','tournament_prize', 'tournament_poster', 'user','turf')
 
         
     

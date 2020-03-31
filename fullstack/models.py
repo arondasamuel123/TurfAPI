@@ -43,11 +43,17 @@ class Schedule(models.Model):
 
 class Tournament(models.Model):
     tournament_name = models.CharField(max_length=30)
-    tournament_prize = models.IntegerField()
+    tournament_prize = models.DecimalField(max_digits=6, decimal_places=2)
     tournament_poster = CloudinaryField('tournament_poster')
-    tournament_date = models.DateField()
+    tournament_date = models.DateField(default=datetime.date.today)
     turf = models.ForeignKey(Turf, on_delete=models.CASCADE)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+
+class Join(models.Model):
+    team_name = models.CharField(max_length=30)
+    players = models.IntegerField()
+    payment_method = models.CharField(max_length=20)
+    tournament_id = models.ForeignKey(Tournament, on_delete=models.CASCADE)
     
 
        
