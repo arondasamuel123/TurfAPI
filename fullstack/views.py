@@ -2,13 +2,13 @@ from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .models import User, Turf
+from .models import User, Turf, Booking
 from .serializers import UserSerializer,CustomTokenSerializer,TurfSerializer,BookingSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.views import APIView
 from .permissions import TurfOwner
-from .email import send_booking_email
+from .email import send_booking_email, confirm_booking_email
 
 
 class UserList(APIView):
@@ -69,6 +69,19 @@ class BookingView(APIView):
             serializers.save(user=request.user, turf=turf)
             send_booking_email(user.username, user.email)
             return Response(serializers.data, status=status.HTTP_201_CREATED)
+    def put(self,request,pk, format=None):
+        turf = Turf.objects.get(pk=pk)
+        booking = Booking.objects.filter(turf_id=turf.id).first()
+        user = User.objects.filter(id=booking.user_id).first()
+        serializers = BookingSerializer(booking, data=request.data)
+        if serializers.is_valid():
+            serializers.save(user=booking.user, turf=turf)
+            confirm_booking_email(user.username, user.email)
+            return Response(serializers.data)
+        return Response(serializers.errors, status=status.HTTP_400_BAD_REQUEST)
+            
+        
+        
             
         
         
