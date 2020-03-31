@@ -7,7 +7,7 @@ from .serializers import UserSerializer,CustomTokenSerializer,TurfSerializer,Boo
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.views import APIView
-from .permissions import TurfOwner
+from .permissions import TurfOwner, TurfUser
 from .email import send_booking_email, confirm_booking_email
 
 
@@ -86,11 +86,14 @@ class BookingView(APIView):
             return Response(serializers.data)
         return Response(serializers.errors, status=status.HTTP_400_BAD_REQUEST)
     
-# class UserBookingView(APIView):
-#     def get(self, request,pk, format=None):
-#         user = User.objects.get(pk=pk)
-#         booking = Booking.objects.filter(user_id=user.id).first()
-#         serializer
+class UserBookingView(APIView):
+    permission_classes = (TurfUser,)
+    def get(self, request,pk, format=None):
+        user = User.objects.get(pk=pk)
+        booking = Booking.objects.filter(user_id=user.id).first()
+        serializers = BookingSerializer(booking)
+        return Response(serializers.data, status=status.HTTP_200_OK)
+    
             
         
         
