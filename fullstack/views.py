@@ -3,12 +3,12 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from .models import User, Turf
-from .serializers import UserSerializer,CustomTokenSerializer
+from .serializers import UserSerializer,CustomTokenSerializer,TurfSerializer,BookingSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.views import APIView
-from .serializers import TurfSerializer
 from .permissions import TurfOwner
+from .email import send_booking_email
 
 
 class UserList(APIView):
@@ -57,4 +57,18 @@ class SingleTurf(APIView):
             serializers.save(user=request.user)
             return Response(serializers.data)
         return Response(serializers.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+class BookingView(APIView):
+    
+    def post(self,request, pk, format=None):
+        turf = Turf.objects.get(pk=pk)
+        user = User.objects.filter(id=turf.user_id).first()
+        serializers = BookingSerializer(data=request.data)
+        
+        if serializers.is_valid():
+            serializers.save(user=request.user, turf=turf)
+            send_booking_email(user.username, user.email)
+            return Response(serializers.data, status=status.HTTP_201_CREATED)
+            
+        
         

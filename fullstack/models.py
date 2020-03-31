@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.conf import settings
 from cloudinary.models import CloudinaryField
-
+import datetime
 class User(AbstractUser):
     
     TURF_USER = 'TU'
@@ -21,7 +21,8 @@ class Turf(models.Model):
 
 class Booking(models.Model):
     players = models.IntegerField()
-    time_booked = models.DateTimeField()
+    time = models.TimeField(auto_now=True)
+    date = models.DateField(default=datetime.date.today)
     status = models.BooleanField()
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     turf = models.ForeignKey(Turf, on_delete=models.CASCADE)
