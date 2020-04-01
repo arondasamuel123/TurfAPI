@@ -77,7 +77,9 @@ class BookingView(APIView):
             serializers.save(user=request.user, turf=turf)
             send_booking_email(user.username, user.email)
             return Response(serializers.data, status=status.HTTP_201_CREATED)
-    def put(self,request,pk, format=None):
+        
+    permission_classes = (TurfOwner,)
+    def patch(self,request,pk, format=None):
         turf = Turf.objects.get(pk=pk)
         booking = Booking.objects.filter(turf_id=turf.id).first()
         user = User.objects.filter(id=booking.user_id).first()

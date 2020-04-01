@@ -23,7 +23,7 @@ class Booking(models.Model):
     players = models.IntegerField()
     time = models.TimeField(auto_now=True)
     date = models.DateField(default=datetime.date.today)
-    status = models.BooleanField()
+    status = models.BooleanField(default=False)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     turf = models.ForeignKey(Turf, on_delete=models.CASCADE)
     
