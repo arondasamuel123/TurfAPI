@@ -15,6 +15,7 @@ Samuel Aronda
 
 
 ## DB diagram
+![Turf](https://user-images.githubusercontent.com/31355212/78124539-7e95b900-7418-11ea-804c-85401af10a60.png)
 
 
 
