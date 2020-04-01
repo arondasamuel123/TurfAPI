@@ -2,7 +2,7 @@ from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .models import User, Turf, Booking, Tournament, Schedule
+from .models import User, Turf, Booking, Tournament, Schedule, Join
 from .serializers import UserSerializer,CustomTokenSerializer,TurfSerializer,BookingSerializer,TournamentSerializer, ScheduleSerializer,JoinSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.views import TokenObtainPairView
@@ -153,7 +153,13 @@ class ScheduleView(APIView):
         return Response(serializers.errors,status=status.HTTP_400_BAD_REQUEST)
         
 class JoinView(APIView):
-    permission_classes = (TurfUser,)
+    permission_classes = (IsAuthenticated,)
+    def get(self, request, pk, format=None):
+        tournament = Tournament.objects.get(pk=pk)
+        join = Join.objects.filter(tournament_id=tournament.id).first()
+        serializers = JoinSerializer(join)
+        return Response(serializers.data, status=status.HTTP_200_OK)
+    
     def post(self, request, pk, format=None):
         tournament = Tournament.objects.get(pk=pk)
         serializers = JoinSerializer(data=request.data)
