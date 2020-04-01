@@ -32,19 +32,20 @@ class TurfSerializer(serializers.ModelSerializer):
         fields = ('id','turf_name', 'turf_location', 'price', 'user')
         
 class BookingSerializer(serializers.ModelSerializer):
-    user = serializers.PrimaryKeyRelatedField(
-        queryset=User.objects.all(),
-        required=False,
-        allow_null=True,
-        default=None
-    )
-    
-    turf = serializers.PrimaryKeyRelatedField(
-        queryset=Turf.objects.all(),
-        required=False,
-        allow_null=True,
-        default=None
-    )
+    # user = serializers.PrimaryKeyRelatedField(
+    #     queryset=User.objects.all(),
+    #     required=False,
+    #     allow_null=True,
+    #     default=None
+    # )
+    user = UserSerializer(read_only=True)
+    turf = TurfSerializer(read_only=True)
+    # turf = serializers.PrimaryKeyRelatedField(
+    #     queryset=Turf.objects.all(),
+    #     required=False,
+    #     allow_null=True,
+    #     default=None
+    # )
     class Meta:
         model = Booking
         fields = ('id', 'players', 'time', 'date', 'status', 'user','turf')
@@ -57,12 +58,13 @@ class TournamentSerializer(serializers.ModelSerializer):
         default=None
     )
     
-    turf = serializers.PrimaryKeyRelatedField(
-        queryset=Turf.objects.all(),
-        required=False,
-        allow_null=True,
-        default=None
-    )
+    # turf = serializers.PrimaryKeyRelatedField(
+    #     queryset=Turf.objects.all(),
+    #     required=False,
+    #     allow_null=True,
+    #     default=None
+    # )
+    turf = TurfSerializer(read_only=True)
     class Meta:
         model = Tournament
         fields = ('id', 'tournament_name','tournament_date','tournament_prize', 'tournament_poster', 'user','turf')
