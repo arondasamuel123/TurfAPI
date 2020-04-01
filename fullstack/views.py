@@ -9,6 +9,8 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.views import APIView
 from .permissions import TurfOwner, TurfUser
 from .email import send_booking_email, confirm_booking_email
+from django.template.loader import render_to_string
+from django.core.mail import EmailMultiAlternatives
 
 
 class UserList(APIView):
@@ -118,11 +120,21 @@ class TournamentView(APIView):
         
     def post(self,request,pk, format=None):
         turf = Turf.objects.get(pk=pk)
-        
+        users = User.objects.all()
         serializers = TournamentSerializer(data=request.data)
         if serializers.is_valid():
             serializers.save(user=request.user, turf=turf)
-            return Response(serializers.data,status=status.HTTP_201_CREATED)
+            for user in users:
+                if user.role_type=='TU':
+                    mail_subject = "Tournament Notification"
+                    sender = 'isproject.420@gmail.com'
+                    message = render_to_string('email/tourna_email.txt', {"name": user.username, "turf":turf.turf_name})
+                    html_content = render_to_string('email/tourna_email.html', {"name": user.username,"turf":turf.turf_name })
+                    to_email = user.email
+                    msg = EmailMultiAlternatives(mail_subject, message, sender, [to_email])
+                    msg.attach_alternative(html_content, 'text/html')
+                    msg.send()
+                    return Response(serializers.data,status=status.HTTP_201_CREATED)
         return Response(serializers.errors, status=status.HTTP_400_BAD_REQUEST)
     def delete(self, request, pk, format=None):
         tournament = Tournament.objects.get(pk=pk)
