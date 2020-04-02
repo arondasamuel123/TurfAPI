@@ -30,7 +30,7 @@ class CustomTokenObtainPairView(TokenObtainPairView):
     serializer_class = CustomTokenSerializer
 
 class TurfView(APIView):
-    permission_classes = (TurfOwner,IsAuthenticated,)
+    permission_classes = (IsAuthenticated,)
     def post(self, request, format=None):
         serializers = TurfSerializer(data=request.data)
         if serializers.is_valid():
