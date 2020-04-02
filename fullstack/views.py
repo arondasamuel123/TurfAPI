@@ -46,7 +46,7 @@ class TurfList(APIView):
         return Response(serializers.data, status=status.HTTP_200_OK)
     
 class SingleTurf(APIView):
-    permission_classes = (TurfOwner,)
+    permission_classes = (IsAuthenticated,)
     
     def get(self, request, pk, format=None):
         turf = Turf.objects.get(pk=pk)
@@ -78,7 +78,6 @@ class BookingView(APIView):
             send_booking_email(user.username, user.email)
             return Response(serializers.data, status=status.HTTP_201_CREATED)
         
-    permission_classes = (TurfOwner,)
     def patch(self,request,pk, format=None):
         turf = Turf.objects.get(pk=pk)
         booking = Booking.objects.filter(turf_id=turf.id).first()
@@ -91,7 +90,7 @@ class BookingView(APIView):
         return Response(serializers.errors, status=status.HTTP_400_BAD_REQUEST)
     
 class UserBookingView(APIView):
-    permission_classes = (TurfUser,)
+    permission_classes = (IsAuthenticated,)
     def get(self, request,pk, format=None):
         user = User.objects.get(pk=pk)
         booking = Booking.objects.filter(user_id=user.id).first()
@@ -112,7 +111,7 @@ class TournamentView(APIView):
     
    
     
-    permission_classes = (TurfOwner,)
+   
     def get(self, request, pk, format=None):
         tournament = Tournament.objects.get(pk=pk)
         serializers = TournamentSerializer(tournament)
@@ -144,6 +143,7 @@ class TournamentView(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
     
 class ScheduleView(APIView):
+    permission_classes = (IsAuthenticated,)
     def get(self, request, pk, format=None):
         turf = Turf.objects.get(pk=pk)
         schedule = Schedule.objects.filter(turf_id=turf.id).first()
