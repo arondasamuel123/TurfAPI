@@ -104,14 +104,7 @@ class UserBookingView(APIView):
 
 class TournamentView(APIView):
     permission_classes = (IsAuthenticated,)
-    def get(self, request, format=None):
-        tournaments = Tournament.objects.all()
-        serializers = TournamentSerializer(tournaments, many=True)
-        return Response(serializers.data, status=status.HTTP_200_OK)
-    
-   
-    
-   
+       
     def get(self, request, pk, format=None):
         tournament = Tournament.objects.get(pk=pk)
         serializers = TournamentSerializer(tournament)
@@ -180,4 +173,11 @@ class JoinView(APIView):
         if serializers.is_valid():
             serializers.save(tournament=tournament)
             return Response(serializers.data,status=status.HTTP_201_CREATED)
-        return Response(serializers.errors,status=status.HTTP_400_BAD_REQUEST)        
+        return Response(serializers.errors,status=status.HTTP_400_BAD_REQUEST)  
+    
+class AllTournamentsView(APIView):
+     permission_classes = (IsAuthenticated,)
+     def get(self, request, format=None):
+        tournaments = Tournament.objects.all()
+        serializers = TournamentSerializer(tournaments, many=True)
+        return Response(serializers.data, status=status.HTTP_200_OK)      
