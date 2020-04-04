@@ -163,8 +163,8 @@ class JoinView(APIView):
     permission_classes = (IsAuthenticated,)
     def get(self, request, pk, format=None):
         tournament = Tournament.objects.get(pk=pk)
-        join = Join.objects.filter(tournament_id=tournament.id).first()
-        serializers = JoinSerializer(join)
+        join = Join.objects.filter(tournament_id=tournament.id).all()
+        serializers = JoinSerializer(join, many=True)
         return Response(serializers.data, status=status.HTTP_200_OK)
     
     def post(self, request, pk, format=None):
