@@ -6,7 +6,7 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('username', 'email','password','role_type')
+        fields = ('id','username', 'email','password','role_type')
         
     def validate_password(self, value: str) -> str:
         return make_password(value)
