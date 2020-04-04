@@ -21,12 +21,7 @@ class CustomTokenSerializer(TokenObtainPairSerializer):
 
         return data
 class TurfSerializer(serializers.ModelSerializer):
-    user = serializers.PrimaryKeyRelatedField(
-        queryset=User.objects.all(),
-        required=False,
-        allow_null=True,
-        default=None
-    )
+    user = UserSerializer(read_only=True)
     class Meta:
         model = Turf
         fields = ('id','turf_name', 'turf_location', 'price', 'user')
