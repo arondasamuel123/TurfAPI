@@ -64,7 +64,7 @@ class BookingView(APIView):
     permission_classes = (IsAuthenticated,)
     def get(self, request, pk, format=None):
         turf = Turf.objects.get(pk=pk)
-        booking = Booking.objects.filter(turf_id=turf.id).first()
+        booking = Booking.objects.filter(turf_id=turf.id).all()
         serializer = BookingSerializer(booking)
         return Response(serializer.data, status=status.HTTP_200_OK)
     
@@ -93,7 +93,7 @@ class UserBookingView(APIView):
     permission_classes = (IsAuthenticated,)
     def get(self, request,pk, format=None):
         user = User.objects.get(pk=pk)
-        booking = Booking.objects.filter(user_id=user.id).first()
+        booking = Booking.objects.filter(user_id=user.id).all()
         serializers = BookingSerializer(booking)
         return Response(serializers.data, status=status.HTTP_200_OK)
     def delete(self, request, pk, format=None):
@@ -139,8 +139,8 @@ class ScheduleView(APIView):
     permission_classes = (IsAuthenticated,)
     def get(self, request, pk, format=None):
         turf = Turf.objects.get(pk=pk)
-        schedule = Schedule.objects.filter(turf_id=turf.id).first()
-        serializers = ScheduleSerializer(schedule)
+        schedule = Schedule.objects.filter(turf_id=turf.id).all()
+        serializers = ScheduleSerializer(schedule, many=True)
         return Response(serializers.data, status=status.HTTP_200_OK)
     def post(self,request,pk, format=None):
         turf = Turf.objects.get(pk=pk)
