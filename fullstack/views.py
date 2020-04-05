@@ -94,7 +94,7 @@ class UserBookingView(APIView):
     def get(self, request,pk, format=None):
         user = User.objects.get(pk=pk)
         booking = Booking.objects.filter(user_id=user.id).all()
-        serializers = BookingSerializer(booking)
+        serializers = BookingSerializer(booking,many=True)
         return Response(serializers.data, status=status.HTTP_200_OK)
     def delete(self, request, pk, format=None):
         user = User.objects.get(pk=pk)
