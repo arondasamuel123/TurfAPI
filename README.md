@@ -10,9 +10,10 @@ This is an API backend created for the Capstone Project. This API makes use of D
 Samuel Aronda
 
 ## Frontend Repo
+https://github.com/arondasamuel123/TurfApp
 
 ## Deployed app
-
+https://gracious-euclid-e207fb.netlify.com/login
 
 ## DB diagram
 ![Turf](https://user-images.githubusercontent.com/31355212/78124539-7e95b900-7418-11ea-804c-85401af10a60.png)
