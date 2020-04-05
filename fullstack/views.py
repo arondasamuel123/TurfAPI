@@ -65,7 +65,7 @@ class BookingView(APIView):
     def get(self, request, pk, format=None):
         turf = Turf.objects.get(pk=pk)
         booking = Booking.objects.filter(turf_id=turf.id).all()
-        serializer = BookingSerializer(booking)
+        serializer = BookingSerializer(booking, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     
     def post(self,request, pk, format=None):
